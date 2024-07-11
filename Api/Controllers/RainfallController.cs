@@ -29,6 +29,7 @@ public class RainfallController : ControllerBase
         var readings = _mapper.Map<List<RainfallReading>>(response.Items);
         return Ok(new RainfallReadingResponse { Readings = readings });
     }
+    
     private readonly IRainfallService _rainfallService;
     private readonly IMapper _mapper;
 }
