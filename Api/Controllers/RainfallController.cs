@@ -1,6 +1,6 @@
 using System.Net;
-using Api.Exceptions;
 using AutoMapper;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using RainfallApi.Models;
@@ -25,16 +25,6 @@ public class RainfallController : ControllerBase
     [Route("id/{stationId}/readings")]
     public ActionResult<RainfallReadingResponse> GetRainfallReadings(string stationId, [FromQuery] int count = 10)
     {
-        if (string.IsNullOrWhiteSpace(stationId))
-        {
-            throw new ControllerException("stationId", HttpStatusCode.BadRequest, "Station ID is required");
-        }
-
-        if (count is < 0 or > 100)
-        {
-            throw new ControllerException( "count", HttpStatusCode.BadRequest, "Count must be within 1 and 100." );
-        }
-
         var response = _rainfallService.GetRainfall(stationId, count);
 
         if (!response.Items.Any())

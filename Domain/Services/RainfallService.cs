@@ -1,3 +1,5 @@
+using System.Net;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
 
@@ -7,6 +9,16 @@ public class RainfallService : IRainfallService
 {
     public RainfallResponse GetRainfall(string stationId, int count)
     {
+        if (string.IsNullOrWhiteSpace(stationId))
+        {
+            throw new PropertyException("stationId", HttpStatusCode.BadRequest, "Station ID is required");
+        }
+
+        if (count is < 0 or > 100)
+        {
+            throw new PropertyException( "count", HttpStatusCode.BadRequest, "Count must be within 1 and 100." );
+        }
+    
         var readings = new List<Item>
         {
             new Item { DateTime = DateTime.UtcNow, Value = 12.34 },

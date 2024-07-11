@@ -1,7 +1,7 @@
 using RainfallApi.Models;
 using System.Net;
 using System.Text.Json;
-using Api.Exceptions;
+using Domain.Exceptions;
 
 namespace Api.Middleware;
 
@@ -29,7 +29,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         }
 
         var propertyName = "Exception";
-        if (exception is ControllerException controllerException)
+        if (exception is PropertyException controllerException)
         {
             propertyName = controllerException.PropertyName;
         }
