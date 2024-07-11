@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Api.Extensions;
 using Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDependencyInjections(builder.Configuration);
 
 var app = builder.Build();
 
