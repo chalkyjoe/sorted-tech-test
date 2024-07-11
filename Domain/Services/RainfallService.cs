@@ -55,6 +55,12 @@ public class RainfallService : IRainfallService
         };
 
         readings = readings.Take(count).ToList();
+
+        if (!readings.Any())
+        {
+            throw new HttpStatusCodeException(HttpStatusCode.NotFound, "No readings found for the specified station Id");
+        }
+
         return new RainfallResponse() { Items = readings };
     }
 }
