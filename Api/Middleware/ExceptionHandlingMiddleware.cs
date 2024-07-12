@@ -22,19 +22,23 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var statusCode = HttpStatusCode.InternalServerError;
-        if (exception is NotFoundException statusCodeException)
+        var exceptionMatrix = new Dictionary<Type, Func<Exception, Task>>
         {
-            statusCode = HttpStatusCode.NotFound;
+            [typeof(NotFoundException)] = m => WriteException(context, m, "", HttpStatusCode.NotFound),
+            [typeof(ValidationException)] = m => WriteException(context, m, ((ValidationException)m).PropertyName, HttpStatusCode.BadRequest),
+            [typeof(ApiException)] = m => WriteException(context, m, "", HttpStatusCode.InternalServerError)
+        };
+        if (exceptionMatrix.TryGetValue(exception.GetType(), out var action))
+        {
+            return action(exception);
         }
 
-        var propertyName = "";
-        if (exception is ValidationException controllerException)
-        {
-            statusCode = HttpStatusCode.BadRequest;
-            propertyName = controllerException.PropertyName;
-        }
+        throw exception;
+    }
 
+    private static Task WriteException( HttpContext context, Exception exception, string propertyName,
+        HttpStatusCode statusCode )
+    {
         var errorResponse = new ErrorResponse
         {
             Message = "An unexpected error has occurred.",
@@ -54,6 +58,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
 
         return context.Response.WriteAsync(result);
     }
+
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
     private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 }
