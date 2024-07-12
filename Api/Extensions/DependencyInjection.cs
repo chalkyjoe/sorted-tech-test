@@ -1,7 +1,7 @@
 using System.Reflection;
 using Application.Interfaces;
+using Application.Mappings;
 using Application.Services;
-using Dtos.Mappings;
 using External.Providers;
 
 namespace Api.Extensions;
