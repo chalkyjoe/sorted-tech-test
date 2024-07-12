@@ -30,54 +30,46 @@ public class RainfallServiceTests
     [Fact]
     public void WhenGetRainfallMethodCalled_WithNoStationId_ReturnBadRequest()
     {
-        // Act
-        var exception = Assert.Throws<PropertyException>(() =>
+        // Act/Assert
+        Assert.Throws<ValidationException>(() =>
             {
                 var response = _sut.GetRainfall("", 10);
             }
         );
-        // Assert
-        Assert.Equal(exception.StatusCode, HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public void WhenGetRainfallMethodCalled_CountIsNegative_ReturnBadRequest()
     {
-        // Act
-        var exception = Assert.Throws<PropertyException>(() =>
+        // Act/Assert
+        Assert.Throws<ValidationException>(() =>
         {
-            var response = _sut.GetRainfall("55", -5);
+            _sut.GetRainfall("55", -5);
         });
-        // Assert
-        Assert.Equal(exception.StatusCode, HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public void WhenGetRainfallMethodCalled_CountIsOver100_ReturnBadRequest()
     {
-        // Act
-        var exception = Assert.Throws<PropertyException>(( ) =>
+        // Act/Assert
+        Assert.Throws<ValidationException>(( ) =>
         {
-            var response = _sut.GetRainfall("55", 101);
+            _sut.GetRainfall("55", 101);
         });
-        // Assert
-        Assert.Equal(exception.StatusCode, HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public void WhenGetRainfallMethodCalled_MockNoResults_ReturnNotFound( )
     {
+        // Arrange
         _environmentDataApi.GetMeasure( "55", 10 ).Returns( new RainfallResponse { Items = new List<Item>() } );
-        var exception = Assert.Throws<HttpStatusCodeException>( ( ) =>
+        // Act/Assert
+        Assert.Throws<NotFoundException>( ( ) =>
         {
-            var response = _sut.GetRainfall( "55", 10 );
+            _sut.GetRainfall( "55", 10 );
         });
-        // Act
-
-        Assert.Equal(exception.StatusCode, HttpStatusCode.NotFound);
     }
     
-    //TODO: Once an interface is realised, create test for no results.
     private RainfallService _sut;
     private readonly IEnvironmentDataApi _environmentDataApi;
 }

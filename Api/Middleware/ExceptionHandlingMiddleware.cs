@@ -23,14 +23,15 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var statusCode = HttpStatusCode.InternalServerError;
-        if (exception is HttpStatusCodeException statusCodeException)
+        if (exception is NotFoundException statusCodeException)
         {
-            statusCode = statusCodeException.StatusCode;
+            statusCode = HttpStatusCode.NotFound;
         }
 
-        var propertyName = "Exception";
-        if (exception is PropertyException controllerException)
+        var propertyName = "";
+        if (exception is ValidationException controllerException)
         {
+            statusCode = HttpStatusCode.BadRequest;
             propertyName = controllerException.PropertyName;
         }
 

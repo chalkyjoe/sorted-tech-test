@@ -26,6 +26,7 @@ public class RainfallController : ControllerBase
     public ActionResult<RainfallReadingResponse> GetRainfallReadings(string stationId, [FromQuery] int count = 10)
     {
         var response = _rainfallService.GetRainfall(stationId, count);
+
         var readings = _mapper.Map<List<RainfallReading>>(response.Items);
         return Ok(new RainfallReadingResponse { Readings = readings });
     }
