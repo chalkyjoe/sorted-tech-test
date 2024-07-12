@@ -1,6 +1,4 @@
-using System.Net;
 using AutoMapper;
-using Domain.Exceptions;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using RainfallApi.Models;
@@ -23,11 +21,12 @@ public class RainfallController : ControllerBase
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status500InternalServerError)]
     [Route("id/{stationId}/readings")]
-    public ActionResult<RainfallReadingResponse> GetRainfallReadings(string stationId, [FromQuery] int count = 10)
+    public async Task<ActionResult<RainfallReadingResponse>> GetRainfallReadings(string stationId, [FromQuery] int count = 10)
     {
-        var response = _rainfallService.GetRainfall(stationId, count);
+        var response = await _rainfallService.GetRainfall(stationId, count);
 
         var readings = _mapper.Map<List<RainfallReading>>(response.Items);
+        
         return Ok(new RainfallReadingResponse { Readings = readings });
     }
     

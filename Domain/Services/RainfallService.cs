@@ -7,7 +7,7 @@ namespace Domain.Services;
 
 public class RainfallService ( IEnvironmentDataApi _environmentDataApi ) : IRainfallService
 {
-    public RainfallResponse GetRainfall(string stationId, int count)
+    public async Task<RainfallResponse> GetRainfall( string stationId, int count )
     {
         if (string.IsNullOrWhiteSpace(stationId))
         {
@@ -19,7 +19,7 @@ public class RainfallService ( IEnvironmentDataApi _environmentDataApi ) : IRain
             throw new ValidationException( "count", "Count must be within 1 and 100." );
         }
 
-        var readings = _environmentDataApi.GetMeasure( stationId, count );
+        var readings = await _environmentDataApi.GetMeasure( stationId, count );
         if (!readings.Items.Any())
         {
             throw new NotFoundException("No readings found for the specified station Id");

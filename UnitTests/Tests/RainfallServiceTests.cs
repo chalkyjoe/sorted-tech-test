@@ -16,13 +16,13 @@ public class RainfallServiceTests
     }
     
     [Fact]
-    public void WhenGetRainfallMethodCalled_WithStationId_ReturnResults()
+    public async Task WhenGetRainfallMethodCalled_WithStationId_ReturnResults()
     {
         // Arrange
         _environmentDataApi.GetMeasure( "5002", 10 )
             .Returns( new RainfallResponse() { Items = new List<Item> { new Item() } } );
         // Act
-        var response = _sut.GetRainfall("5002", 10);
+        var response = await _sut.GetRainfall("5002", 10);
         // Assert
         Assert.True(response.Items.Any());
     }
@@ -31,9 +31,9 @@ public class RainfallServiceTests
     public void WhenGetRainfallMethodCalled_WithNoStationId_ReturnBadRequest()
     {
         // Act/Assert
-        Assert.Throws<ValidationException>(() =>
+        Assert.ThrowsAsync<ValidationException>(async () =>
             {
-                var response = _sut.GetRainfall("", 10);
+                await _sut.GetRainfall("", 10);
             }
         );
     }
@@ -42,9 +42,9 @@ public class RainfallServiceTests
     public void WhenGetRainfallMethodCalled_CountIsNegative_ReturnBadRequest()
     {
         // Act/Assert
-        Assert.Throws<ValidationException>(() =>
+        Assert.ThrowsAsync<ValidationException>(async () =>
         {
-            _sut.GetRainfall("55", -5);
+            await _sut.GetRainfall("55", -5);
         });
     }
 
@@ -52,9 +52,9 @@ public class RainfallServiceTests
     public void WhenGetRainfallMethodCalled_CountIsOver100_ReturnBadRequest()
     {
         // Act/Assert
-        Assert.Throws<ValidationException>(( ) =>
+        Assert.ThrowsAsync<ValidationException>(async () =>
         {
-            _sut.GetRainfall("55", 101);
+            await _sut.GetRainfall("55", 101);
         });
     }
 
@@ -64,9 +64,9 @@ public class RainfallServiceTests
         // Arrange
         _environmentDataApi.GetMeasure( "55", 10 ).Returns( new RainfallResponse { Items = new List<Item>() } );
         // Act/Assert
-        Assert.Throws<NotFoundException>( ( ) =>
+        Assert.ThrowsAsync<NotFoundException>( async () =>
         {
-            _sut.GetRainfall( "55", 10 );
+            await _sut.GetRainfall("55", 10);
         });
     }
     
