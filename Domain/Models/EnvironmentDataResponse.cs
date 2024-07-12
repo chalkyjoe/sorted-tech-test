@@ -1,6 +1,6 @@
 namespace Domain.Models;
 
-public class RainfallResponse
+public class EnvironmentDataResponse
 {
     public List<Item> Items { get; set; }
 }

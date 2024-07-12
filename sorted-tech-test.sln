@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "External", "External\External.csproj", "{17F30B74-AEF1-4633-990C-369E51215EE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{E473C132-F87A-4F02-84B0-D79FDB03C250}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos", "Dtos\Dtos.csproj", "{3359B818-E3BC-4F68-A3C5-75F8FBEBF3CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{17F30B74-AEF1-4633-990C-369E51215EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17F30B74-AEF1-4633-990C-369E51215EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17F30B74-AEF1-4633-990C-369E51215EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E473C132-F87A-4F02-84B0-D79FDB03C250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E473C132-F87A-4F02-84B0-D79FDB03C250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E473C132-F87A-4F02-84B0-D79FDB03C250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E473C132-F87A-4F02-84B0-D79FDB03C250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3359B818-E3BC-4F68-A3C5-75F8FBEBF3CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3359B818-E3BC-4F68-A3C5-75F8FBEBF3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3359B818-E3BC-4F68-A3C5-75F8FBEBF3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3359B818-E3BC-4F68-A3C5-75F8FBEBF3CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

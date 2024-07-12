@@ -1,7 +1,7 @@
-using RainfallApi.Models;
 using System.Net;
 using System.Text.Json;
 using Domain.Exceptions;
+using Dtos.Error;
 
 namespace Api.Middleware;
 

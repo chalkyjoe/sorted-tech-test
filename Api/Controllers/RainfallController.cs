@@ -1,7 +1,8 @@
+using Application.Interfaces;
 using AutoMapper;
-using Domain.Interfaces;
+using Dtos.Client;
+using Dtos.Error;
 using Microsoft.AspNetCore.Mvc;
-using RainfallApi.Models;
 
 namespace Api.Controllers;
 

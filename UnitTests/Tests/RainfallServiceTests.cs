@@ -1,8 +1,7 @@
-using System.Net;
+using Application.Interfaces;
+using Application.Services;
 using Domain.Exceptions;
-using Domain.Interfaces;
 using Domain.Models;
-using Domain.Services;
 using NSubstitute;
 
 namespace UnitTests.Tests;
@@ -19,10 +18,10 @@ public class RainfallServiceTests
     public async Task WhenGetRainfallMethodCalled_WithStationId_ReturnResults()
     {
         // Arrange
-        _environmentDataApi.GetMeasure( "5002", 10 )
-            .Returns( new RainfallResponse() { Items = new List<Item> { new Item() } } );
+        _environmentDataApi.GetMeasure( "5002", 10, CancellationToken.None )
+            .Returns( new EnvironmentDataResponse() { Items = new List<Item> { new Item() } } );
         // Act
-        var response = await _sut.GetRainfall("5002", 10);
+        var response = await _sut.GetRainfall("5002", 10, CancellationToken.None);
         // Assert
         Assert.True(response.Items.Any());
     }
@@ -33,7 +32,7 @@ public class RainfallServiceTests
         // Act/Assert
         Assert.ThrowsAsync<ValidationException>(async () =>
             {
-                await _sut.GetRainfall("", 10);
+                await _sut.GetRainfall("", 10, CancellationToken.None);
             }
         );
     }
@@ -44,7 +43,7 @@ public class RainfallServiceTests
         // Act/Assert
         Assert.ThrowsAsync<ValidationException>(async () =>
         {
-            await _sut.GetRainfall("55", -5);
+            await _sut.GetRainfall("55", -5, CancellationToken.None);
         });
     }
 
@@ -54,7 +53,7 @@ public class RainfallServiceTests
         // Act/Assert
         Assert.ThrowsAsync<ValidationException>(async () =>
         {
-            await _sut.GetRainfall("55", 101);
+            await _sut.GetRainfall("55", 101, CancellationToken.None);
         });
     }
 
@@ -62,11 +61,11 @@ public class RainfallServiceTests
     public void WhenGetRainfallMethodCalled_MockNoResults_ReturnNotFound( )
     {
         // Arrange
-        _environmentDataApi.GetMeasure( "55", 10 ).Returns( new RainfallResponse { Items = new List<Item>() } );
+        _environmentDataApi.GetMeasure("55", 10, CancellationToken.None).Returns(new EnvironmentDataResponse { Items = new List<Item>() });
         // Act/Assert
         Assert.ThrowsAsync<NotFoundException>( async () =>
         {
-            await _sut.GetRainfall("55", 10);
+            await _sut.GetRainfall("55", 10, CancellationToken.None);
         });
     }
     

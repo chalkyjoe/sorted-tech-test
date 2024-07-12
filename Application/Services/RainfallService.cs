@@ -1,13 +1,12 @@
-using System.Net;
+using Application.Interfaces;
 using Domain.Exceptions;
-using Domain.Interfaces;
 using Domain.Models;
 
-namespace Domain.Services;
+namespace Application.Services;
 
-public class RainfallService ( IEnvironmentDataApi _environmentDataApi ) : IRainfallService
+public class RainfallService(IEnvironmentDataApi _environmentDataApi) : IRainfallService
 {
-    public async Task<RainfallResponse> GetRainfall(string stationId, int count, CancellationToken cancellationToken)
+    public async Task<EnvironmentDataResponse> GetRainfall(string stationId, int count, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(stationId))
         {

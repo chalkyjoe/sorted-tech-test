@@ -1,4 +1,4 @@
-namespace RainfallApi.Models;
+namespace Dtos.Error;
 
 public class ErrorResponse
 {

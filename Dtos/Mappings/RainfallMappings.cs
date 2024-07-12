@@ -1,8 +1,8 @@
 using AutoMapper;
 using Domain.Models;
-using RainfallApi.Models;
+using Dtos.Client;
 
-namespace Api.Mappings;
+namespace Dtos.Mappings;
 
 public class RainfallMapping : Profile
 {
