@@ -14,13 +14,13 @@ public abstract class ApiBase(
         var response = await client.GetAsync(url, cancellationToken);
         if (response.IsSuccessStatusCode)
         {
-            return JsonConvert.DeserializeObject<T>( await response.Content.ReadAsStringAsync() );
+            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
         }
         if(response.StatusCode == HttpStatusCode.BadRequest)
         {
-            throw new ValidationException("", await response.Content.ReadAsStringAsync());
+            throw new ValidationException("", await response.Content.ReadAsStringAsync(cancellationToken));
         }
 
-        throw new ApiException(await response.Content.ReadAsStringAsync());
+        throw new ApiException(await response.Content.ReadAsStringAsync(cancellationToken));
     }
 }

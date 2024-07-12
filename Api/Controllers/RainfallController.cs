@@ -21,7 +21,7 @@ public class RainfallController : ControllerBase
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ErrorResponse>(StatusCodes.Status500InternalServerError)]
     [Route("id/{stationId}/readings")]
-    public async Task<ActionResult<RainfallReadingResponse>> GetRainfallReadings(string stationId, [FromQuery] int count = 10, CancellationToken cancellationToken = null)
+    public async Task<ActionResult<RainfallReadingResponse>> GetRainfallReadings(string stationId, [FromQuery] int count = 10, CancellationToken cancellationToken = default)
     {
         var response = await _rainfallService.GetRainfall(stationId, count, cancellationToken);
 
