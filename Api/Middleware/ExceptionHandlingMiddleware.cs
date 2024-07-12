@@ -5,7 +5,9 @@ using Domain.Exceptions;
 
 namespace Api.Middleware;
 
-public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+public class ExceptionHandlingMiddleware(
+    RequestDelegate next,
+    ILogger<ExceptionHandlingMiddleware> logger)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -20,7 +22,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var exceptionMatrix = new Dictionary<Type, Func<Exception, Task>>
         {
@@ -28,12 +30,12 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
             [typeof(ValidationException)] = m => WriteException(context, m, ((ValidationException)m).PropertyName, HttpStatusCode.BadRequest),
             [typeof(ApiException)] = m => WriteException(context, m, "", HttpStatusCode.InternalServerError)
         };
-        if (exceptionMatrix.TryGetValue(exception.GetType(), out var action))
+        if(exceptionMatrix.TryGetValue(exception.GetType(), out var action))
         {
             return action(exception);
         }
-
-        throw exception;
+        // Obfuscate the exception message if we didn't throw it. It'll be visible in the logs anyway.
+        return WriteException(context, new Exception(), "", HttpStatusCode.InternalServerError);
     }
 
     private static Task WriteException( HttpContext context, Exception exception, string propertyName,
