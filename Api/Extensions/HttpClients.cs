@@ -1,4 +1,5 @@
 using External.Providers;
+using Polly;
 
 namespace Api.Extensions;
 
@@ -10,6 +11,6 @@ public static class HttpClients
         {
             client.BaseAddress = new Uri(config["EnvironmentDataApiUrl"]);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
+        }).AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(600)));;
     }
 }
