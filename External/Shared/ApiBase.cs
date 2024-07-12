@@ -1,13 +1,11 @@
 using System.Net;
 using Domain.Exceptions;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace External.Shared;
 
 public abstract class ApiBase(
     IHttpClientFactory _httpClientFactory,
-    ILogger<ApiBase> _logger,
     string _clientName)
 {
     protected async Task<T> GetAsync<T>( string url )
