@@ -10,7 +10,7 @@ public abstract class ApiBase(
 {
     protected async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
     {
-        var client = _httpClientFactory.CreateClient(_clientName);
+        using var client = _httpClientFactory.CreateClient(_clientName);
         var response = await client.GetAsync(url, cancellationToken);
         if (response.IsSuccessStatusCode)
         {
