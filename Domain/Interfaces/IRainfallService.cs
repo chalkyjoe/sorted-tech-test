@@ -4,5 +4,5 @@ namespace Domain.Interfaces;
 
 public interface IRainfallService
 {
-    Task<RainfallResponse> GetRainfall(  string stationId, int count );
+    Task<RainfallResponse> GetRainfall(string stationId, int count, CancellationToken cancellationToken);
 }

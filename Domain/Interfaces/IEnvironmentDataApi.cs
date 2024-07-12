@@ -4,5 +4,5 @@ namespace Domain.Interfaces;
 
 public interface IEnvironmentDataApi
 {
-    Task<RainfallResponse> GetMeasure( string stationId, int count );
+    Task<RainfallResponse> GetMeasure( string stationId, int count, CancellationToken cancellationToken);
 }

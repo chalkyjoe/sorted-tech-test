@@ -8,19 +8,19 @@ public abstract class ApiBase(
     IHttpClientFactory _httpClientFactory,
     string _clientName)
 {
-    protected async Task<T> GetAsync<T>( string url )
+    protected async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
     {
         var client = _httpClientFactory.CreateClient(_clientName);
-        var response = await client.GetAsync( url );
-        if(!response.IsSuccessStatusCode)
+        var response = await client.GetAsync(url, cancellationToken);
+        if (response.IsSuccessStatusCode)
         {
-            if(response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                throw new ValidationException( "", await response.Content.ReadAsStringAsync() );
-            }
-
-            throw new ApiException( await response.Content.ReadAsStringAsync() );
+            return JsonConvert.DeserializeObject<T>( await response.Content.ReadAsStringAsync() );
         }
-        return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+        if(response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            throw new ValidationException("", await response.Content.ReadAsStringAsync());
+        }
+
+        throw new ApiException(await response.Content.ReadAsStringAsync());
     }
 }

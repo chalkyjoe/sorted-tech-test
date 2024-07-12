@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 
 namespace External.Providers;
 
-public class EnvironmentDataApi( IHttpClientFactory _httpClientFactory, ILogger<EnvironmentDataApi> _logger ) : ApiBase(_httpClientFactory, _logger, nameof(EnvironmentDataApi)), IEnvironmentDataApi
+public class EnvironmentDataApi(IHttpClientFactory _httpClientFactory) : ApiBase(_httpClientFactory, nameof(EnvironmentDataApi)), IEnvironmentDataApi
 {
-    public Task<RainfallResponse> GetMeasure(string stationId, int count) => 
-        GetAsync<RainfallResponse>( $"id/stations/{stationId}/readings?_limit={count}" );
+    public Task<RainfallResponse> GetMeasure(string stationId, int count, CancellationToken cancellationToken) => 
+        GetAsync<RainfallResponse>( $"id/stations/{stationId}/readings?_limit={count}", cancellationToken );
 }
